@@ -1,6 +1,3 @@
-Got it 👍 — here’s the **full README.md** formatted properly for your project:
-
-```markdown
 # 💳 Credit Approval System (Django + DRF + Celery + Postgres + Redis)
 
 This project is a **backend-only Credit Approval System** built using **Django Rest Framework (DRF)**.  
@@ -32,7 +29,6 @@ Data ingestion is handled in the background using **Celery workers with Redis**.
 ---
 
 ## 📂 Project Structure
-```
 
 credit-approval-system/
 │── core/                 # Main app (models, views, serializers, tasks)
@@ -43,21 +39,20 @@ credit-approval-system/
 │── entrypoint.sh         # Entrypoint for Docker web service
 └── README.md             # Project documentation
 
-````
+
 
 ---
 
 ## ⚡ Setup & Run
 
 ### 🔹 1. Clone Repository
-```bash
+
 git clone https://github.com/<your-username>/credit-approval-system.git
 cd credit-approval-system
-````
+
 
 ### 🔹 2. Environment Setup (local run without Docker)
 
-```bash
 python -m venv creditenv
 source creditenv/bin/activate
 pip install -r requirements.txt
@@ -67,15 +62,14 @@ python manage.py migrate
 
 # Start server
 python manage.py runserver
-```
+
 
 ### 🔹 3. Run with Docker Compose
 
 Make sure Docker is installed and running. Then:
 
-```bash
 docker compose up -d --build
-```
+
 
 This starts:
 
@@ -235,18 +229,18 @@ Response:
 
 Run Celery worker:
 
-```bash
+
 celery -A credit_system worker -l info
-```
+
 
 Trigger data import:
 
-```python
+
 from core.tasks import import_customers, import_loans
 
 import_customers.delay("/home/user/customer_data.xlsx")
 import_loans.delay("/home/user/loan_data.xlsx")
-```
+
 
 ---
 
@@ -254,41 +248,13 @@ import_loans.delay("/home/user/loan_data.xlsx")
 
 * To rebuild and restart:
 
-```bash
+
 docker compose down
 docker compose up -d --build
-```
+
 
 * Logs:
 
-```bash
+
 docker compose logs -f
-```
 
----
-
-## ✅ Assignment Completion Checklist
-
-* [x] Register API
-* [x] Check Eligibility API
-* [x] Create Loan API
-* [x] View Loan API
-* [x] View All Loans API
-* [x] Background data ingestion with Celery
-* [x] PostgreSQL + Redis setup
-* [x] Dockerized with `docker-compose`
-
----
-
-## 👨‍💻 Author
-
-**Mohd Ehtisham**
-📧 \[Your Email]
-🔗 [GitHub Profile](https://github.com/Ehtisham9198)
-
-```
-
----
-
-Do you also want me to add **sample `docker-compose.yml` and Dockerfile** sections inside the README for reference (so the evaluator doesn’t need to open them separately)?
-```
