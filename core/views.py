@@ -15,10 +15,7 @@ def evaluate_loan_eligibility(customer, loan_amount, interest_rate, tenure):
     Core business logic for loan eligibility.
     Returns dict with approval, corrected_rate, emi, message.
     """
-    # 1. Placeholder credit score (TODO: improve later)
     credit_score = 50  
-
-    # 2. Apply credit score slab
     corrected_rate = interest_rate
     approval = True
     message = "Loan approved"
@@ -39,10 +36,8 @@ def evaluate_loan_eligibility(customer, loan_amount, interest_rate, tenure):
             "message": "Loan not approved due to low credit score"
         }
 
-    # 3. Calculate EMI
     emi = calculate_emi(loan_amount, corrected_rate, tenure)
 
-    # 4. Reject if EMI > 50% of salary
     if emi > 0.5 * float(customer.monthly_income):
         return {
             "approval": False,
@@ -81,7 +76,7 @@ def calculate_emi(principal, annual_rate, tenure_months):
     Calculate EMI using compound interest formula
     """
     monthly_rate = (annual_rate / 100) / 12
-    if monthly_rate == 0:  # edge case: 0% interest
+    if monthly_rate == 0: 
         return round(principal / tenure_months, 2)
 
     emi = (principal * monthly_rate * (1 + monthly_rate) ** tenure_months) / \
@@ -102,7 +97,7 @@ def calculate_emi(principal, annual_rate, tenure_months):
     Calculate EMI using compound interest formula
     """
     monthly_rate = (annual_rate / 100) / 12
-    if monthly_rate == 0:  # edge case: 0% interest
+    if monthly_rate == 0: 
         return round(principal / tenure_months, 2)
 
     emi = (principal * monthly_rate * (1 + monthly_rate) ** tenure_months) / \
@@ -149,7 +144,6 @@ def create_loan(request):
     except Customer.DoesNotExist:
         return Response({"error": "Customer not found"}, status=404)
 
-    # Use the helper function directly
     result = evaluate_loan_eligibility(customer, loan_amount, interest_rate, tenure)
 
     if not result["approval"]:
@@ -161,7 +155,6 @@ def create_loan(request):
             "monthly_installment": result["emi"],
         }, status=200)
 
-    # Create loan
     start = timezone.now().date()
     end = start + relativedelta(months=+tenure)
 
@@ -178,7 +171,6 @@ def create_loan(request):
         emIs_paid_on_time=0
     )
 
-    # Update customer debt
     customer.current_debt = (customer.current_debt or 0) + loan.loan_amount
     customer.save()
 
@@ -230,7 +222,6 @@ def view_loans(request, customer_id):
 
     response = []
     for loan in loans:
-        # repayments left = total_emis - paid_emis
         repayments_left = loan.total_emis - loan.emIs_paid_on_time
         response.append({
             "loan_id": loan.loan_id,
